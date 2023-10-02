@@ -1,0 +1,41 @@
+image: thecodingmachine/php:8.2-v4-fpm
+
+pipelines:
+  default:
+    - step:
+        name: Install composer dependencies
+        caches:
+          - composer
+        script:
+          - export PHP_EXTENSION_BCMATH=1
+          - export PHP_EXTENSION_CTYPE=1
+          - export PHP_EXTENSION_CURL=1
+          - export PHP_EXTENSION_DOM=1
+          - export PHP_EXTENSION_GD=1
+          - export PHP_EXTENSION_HASH=1
+          - export PHP_EXTENSION_ICONV=1
+          - export PHP_EXTENSION_INTL=1
+          - export PHP_EXTENSION_MBSTRING=1
+          - export PHP_EXTENSION_OPENSSL=1
+          - export PHP_EXTENSION_PDO_MYSQL=1
+          - export PHP_EXTENSION_SIMPLEXML=1
+          - export PHP_EXTENSION_SOAP=1
+          - export PHP_EXTENSION_SODIUM=1
+          - export PHP_EXTENSION_XSL=1
+          - export PHP_EXTENSION_ZIP=1
+          - export PHP_INI_ERROR_REPORTING="E_ALL & ~E_DEPRECATED"
+          - composer self-update --2
+          - composer config --global --auth http-basic.repo.magento.com $MAGENTO_REPO_USERNAME $MAGENTO_REPO_PASSWORD
+          - COMPOSER_MEMORY_LIMIT=-1 composer install --prefer-dist --optimize-autoloader
+        artifacts:
+          - vendor/**
+          - composer.lock
+
+    - step:
+        name: Run tests
+        script:
+          - ./vendor/bin/grumphp run --no-interaction | tee tests.txt
+          - if grep -q "✘" tests.txt; then exit 1; fi
+        artifacts:
+          paths:
+            - tests.txt
