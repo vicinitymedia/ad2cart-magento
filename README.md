@@ -35,3 +35,5 @@ composer require vicinity-media/ad2cart
 - Add module configuration doc
 - Update installation doc
 - Add module to package manager (TBD)
+- Add pipeline to package registry on tagging
+
