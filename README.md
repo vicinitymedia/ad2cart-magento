@@ -27,7 +27,7 @@ projects `composer.json` file:
 Then run:
 
 ```bash
-composer require vicinity-media/ad2cart
+composer require vicinity-media/ad2cart-magento
 ```
 
 ## Todo
