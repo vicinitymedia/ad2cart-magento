@@ -13,13 +13,13 @@ projects `composer.json` file:
 ```bash
 ...
     "repositories": {
-      "ad2cart": {
-        "type": "vcs",
-        "url": "https://bitbucket.org/vicinity-media/ad2cart-magento.git",
-        "only": [
-          "vicinity-media/ad2cart"
-        ]
-      }
+        "vicinity-media": {
+            "type": "vcs",
+            "url": "https://bitbucket.org/vicinity-media/ad2cart-magento.git",
+            "only": [
+                "vicinity-media/ad2cart-magento"
+            ]
+        }
     }
 ...
 ```
