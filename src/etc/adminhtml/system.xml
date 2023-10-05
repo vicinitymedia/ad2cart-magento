@@ -8,7 +8,8 @@
             <label>Ad2Cart</label>
             <tab>vicinity_media</tab>
             <resource>VicinityMedia_Ad2Cart::vicinity_media_config</resource>
-            <include path="VicinityMedia_Ad2Cart::system/main.xml"/>
+            <include path="VicinityMedia_Ad2Cart::system/info.xml"/>
+            <include path="VicinityMedia_Ad2Cart::system/general.xml"/>
         </section>
     </system>
 </config>
