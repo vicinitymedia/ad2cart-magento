@@ -1,0 +1,109 @@
+grumphp:
+  process_timeout: 120
+  hide_circumvention_tip: true
+  ascii:
+    failed: null
+    succeeded: null
+  tasks:
+    composer:
+      metadata:
+        label: "Validate Composer"
+      file: ./composer.json
+      no_check_all: true
+      no_check_lock: false
+      no_check_publish: false
+      with_dependencies: false
+      strict: false
+    securitychecker_enlightn:
+      metadata:
+        label: "Detect Composer security vulnerabilities"
+      lockfile: ./composer.lock
+      run_always: true
+    git_branch_name:
+      metadata:
+        label: "Validate GIT branch"
+      blacklist:
+        - "master"
+      additional_modifiers: ""
+      allow_detached_head: true
+    git_blacklist:
+      metadata:
+        label: "Detect invalid keywords"
+      keywords:
+        - "\\.dev"
+        - "\\.local"
+        - "\\.test"
+        - "_GET\\["
+        - "_POST\\["
+        - "_REQUEST\\["
+        - "<<<<<<<"
+        - "======="
+        - "die\\("
+        - "die;"
+        - "exit\\("
+        - "exit;"
+        - "localhost"
+        - "phpinfo"
+        - "phpinfo\\("
+        - "print_r\\("
+        - "var_dump\\("
+        - "DebuggerUtility"
+        - "console.log\\("
+      triggered_by: ['php', 'js', 'html', 'phtml']
+    phpversion:
+      metadata:
+        label: "Validate PHP EOL"
+      project: "8.2"
+    phpmd:
+      metadata:
+        label: "Validate coding standards [phpmd]"
+      ruleset: [ ./vendor/magento/magento2-functional-testing-framework/dev/tests/static/Magento/CodeMessDetector/ruleset.xml ]
+    phpcs:
+      metadata:
+        label: "Validate coding standards [phpcs]"
+      standard: "./vendor/magento/magento-coding-standard/Magento2"
+      tab_width: 4
+    phpcpd:
+      metadata:
+        label: "Detect duplicate lines"
+      directory: [ "." ]
+      exclude: [ "vendor" ]
+      fuzzy: false
+      min_lines: 40
+      min_tokens: 70
+      triggered_by: [ "php" ]
+    phpmnd:
+      metadata:
+        label: "Detect magic numbers"
+      directory: .
+      whitelist_patterns: [ ]
+      exclude: [ ]
+      exclude_name: [ ]
+      exclude_path: [ ]
+      extensions: [ ]
+      hint: true
+      ignore_funcs: [ ]
+      ignore_numbers: [ ]
+      ignore_strings: [ ]
+      strings: false
+      triggered_by: [ "php" ]
+    xmllint:
+      metadata:
+        label: "Lint xml"
+      ignore_patterns:
+        - "#test/(.*).xml#"
+      load_from_net: false
+      x_include: false
+      dtd_validation: false
+      scheme_validation: false
+      triggered_by: [ "xml" ]
+    yamllint:
+      metadata:
+        label: "Lint yaml"
+      whitelist_patterns: [ ]
+      ignore_patterns:
+        - "#test/(.*).yml#"
+      object_support: false
+      exception_on_invalid_type: false
+      parse_constant: false
+      parse_custom_tags: false
