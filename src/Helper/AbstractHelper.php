@@ -68,6 +68,7 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string $field
      * @param \Magento\Store\Api\Data\StoreInterface|int|string|null $scopeCode
      * @param string $scopeType
+     *
      * @return mixed
      */
     public function getStoreConfig(
@@ -104,12 +105,40 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
         string $value = '',
         string $scope = \Magento\Framework\App\Config\ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
         int $scopeId = 0
-    ) {
+    ): static {
         $field = static::MODULE_CONFIG_PATH . '/' .  $field;
 
         $this->configWriter->save($field, $value, $scope, $scopeId);
 
         return $this;
+    }
+
+    /**
+     * Get store config flag
+     *
+     * @param string $field
+     * @param \Magento\Store\Api\Data\StoreInterface|int|string|null $scopeCode
+     * @param string $scopeType
+     *
+     * @return bool
+     */
+    public function isStoreConfigFlag(
+        string $field = '',
+        \Magento\Store\Api\Data\StoreInterface|int|string $scopeCode = null,
+        string $scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+    ): bool {
+        $field = static::MODULE_CONFIG_PATH . '/' .  $field;
+
+        if ($scopeCode === null && !$this->isArea()) {
+            if (!$this->backendConfig) {
+                $this->backendConfig = $this->objectManager
+                    ->get(\Magento\Backend\App\ConfigInterface::class);
+            }
+
+            return $this->backendConfig->isSetFlag($field);
+        }
+
+        return $this->scopeConfig->isSetFlag($field, $scopeType, $scopeCode);
     }
 
     /**
@@ -162,7 +191,7 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
             $state = $this->objectManager->get(\Magento\Framework\App\State::class);
 
             try {
-                $this->isArea[$area] = ($state->getAreaCode() == $area);
+                $this->isArea[$area] = ($state->getAreaCode() === $area);
             } catch (\Exception) {
                 $this->isArea[$area] = false;
             }
