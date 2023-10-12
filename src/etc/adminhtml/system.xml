@@ -10,6 +10,7 @@
             <resource>VicinityMedia_Ad2Cart::vicinity_media_config</resource>
             <include path="VicinityMedia_Ad2Cart::system/info.xml"/>
             <include path="VicinityMedia_Ad2Cart::system/general.xml"/>
+            <include path="VicinityMedia_Ad2Cart::system/api.xml"/>
         </section>
     </system>
 </config>

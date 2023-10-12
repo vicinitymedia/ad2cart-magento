@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="api" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
+        <label>API Credentials</label>
+        <attribute type="expanded">1</attribute>
+
+        <field id="key" translate="label" type="obscure" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Key</label>
+            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+        </field>
+
+        <field id="secret" translate="label" type="obscure" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Secret</label>
+            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+        </field>
+    </group>
+</include>

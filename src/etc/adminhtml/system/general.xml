@@ -9,14 +9,20 @@
             <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
         </field>
 
-        <field id="debug" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="debug" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Debug logging</label>
             <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
         </field>
 
-        <field id="frontend_cart_url" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="frontend_cart_url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Frontend Cart URL</label>
-            <comment>If you are utilizing a headless frontend, assign the URL to the frontend cart. If not, you can leave this field empty.</comment>
+            <comment>Add your frontend cart URL if you are utilizing a headless frontend. If not, you can leave this field empty.</comment>
+        </field>
+
+        <field id="webhook_code" translate="label" type="hidden" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Webhook URL</label>
+            <frontend_model>VicinityMedia\Ad2Cart\Block\Adminhtml\System\Config\Webhook</frontend_model>
+            <backend_model>VicinityMedia\Ad2Cart\Model\Config\Backend\Webhook</backend_model>
         </field>
     </group>
 </include>
