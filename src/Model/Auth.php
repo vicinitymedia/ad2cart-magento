@@ -78,10 +78,10 @@ class Auth
 
         $this->helper->logDebug(['payload' => $payload]);
 
-        // Create digest for signing string
-        $digest = base64_encode(hash_hmac(self::HASH_ALGO, $this->helper->jsonEncode($payload), $secret));
+        // Create digest for signing string, ensure raw binary output is set to true
+        $digest = base64_encode(hash_hmac(self::HASH_ALGO, $this->helper->jsonEncode($payload), $secret, true));
 
-        $stringToSign = implode('\n', [
+        $stringToSign = implode("\n", [
             'key:' . $key,
             'timestamp:' . $requestTimestamp,
             'digest:' . $digest
