@@ -36,7 +36,7 @@ jobs:
 
     - name: Run tests
       run: |
-        ./vendor/bin/grumphp run --no-interaction | tee tests.txt
+        ./vendor/bin/grumphp run --no-interaction |& tee tests.txt
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
