@@ -1,4 +1,4 @@
-name: PHP Composer
+name: Build and Test
 
 on:
   push:
@@ -30,7 +30,8 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      run: composer config --global --auth http-basic.repo.magento.com $MAGENTO_REPO_USERNAME $MAGENTO_REPO_PASSWORD
+      run: |
+        composer config --global --auth http-basic.repo.magento.com $MAGENTO_REPO_USERNAME $MAGENTO_REPO_PASSWORD
         composer install --prefer-dist --optimize-autoloader --no-progress
 
     - name: Run tests
