@@ -31,7 +31,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        composer config --global --auth http-basic.repo.magento.com $MAGENTO_REPO_USERNAME $MAGENTO_REPO_PASSWORD
+        composer config --global --auth http-basic.repo.magento.com ${{ secrets.MAGENTO_REPO_USERNAME }} ${{ secrets.MAGENTO_REPO_PASSWORD }}
         composer install --prefer-dist --optimize-autoloader --no-progress
 
     - name: Run tests
