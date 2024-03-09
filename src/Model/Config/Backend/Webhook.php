@@ -16,6 +16,7 @@ class Webhook extends \Magento\Framework\App\Config\Value
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \VicinityMedia\Ad2Cart\Helper\Data $helper
+     * @param \VicinityMedia\Ad2Cart\Model\ApiService $apiService
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -26,11 +27,13 @@ class Webhook extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \VicinityMedia\Ad2Cart\Helper\Data $helper,
+        \VicinityMedia\Ad2Cart\Model\ApiService $apiService,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         $this->helper = $helper;
+        $this->apiService = $apiService;
         parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
     }
 

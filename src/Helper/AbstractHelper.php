@@ -31,6 +31,11 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
     private $jsonSerializer;
 
     /**
+     * @var \Magento\Framework\App\Cache\TypeListInterface
+     */
+    private $cacheTypeList;
+
+    /**
      * @var \Magento\Backend\App\Config
      */
     protected $backendConfig;
@@ -41,23 +46,28 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
     protected array $isArea = [];
 
     /**
+     * Construct
+     *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
     ) {
         $this->objectManager = $objectManager;
         $this->storeManager = $storeManager;
         $this->configWriter = $configWriter;
         $this->jsonSerializer = $jsonSerializer;
+        $this->cacheTypeList = $cacheTypeList;
 
         parent::__construct($context);
     }
@@ -221,5 +231,15 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
     public function getStore(int $storeId = null): \Magento\Store\Api\Data\StoreInterface
     {
         return $this->storeManager->getStore($storeId);
+    }
+
+    /**
+     * Clean config cache
+     *
+     * @return void
+     */
+    public function cleanConfigCache(): void
+    {
+        $this->cacheTypeList->cleanType('config');
     }
 }
