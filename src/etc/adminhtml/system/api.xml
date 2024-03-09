@@ -4,12 +4,21 @@
         <label>API Credentials</label>
         <attribute type="expanded">1</attribute>
 
-        <field id="key" translate="label" type="obscure" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+        <field id="project_uuid" translate="label" type="hidden" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Project UUID</label>
+            <frontend_model>VicinityMedia\Ad2Cart\Block\Adminhtml\System\Config\ProjectUuid</frontend_model>
+        </field>
+
+        <field id="url" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>URL</label>
+        </field>
+
+        <field id="key" translate="label" type="obscure" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
             <label>Key</label>
             <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
         </field>
 
-        <field id="secret" translate="label" type="obscure" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+        <field id="secret" translate="label" type="obscure" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
             <label>Secret</label>
             <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
         </field>

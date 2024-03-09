@@ -40,12 +40,13 @@ class Webhook extends \Magento\Config\Block\System\Config\Form\Field
             $store = $this->_storeManager->getStore();
 
             if (!$this->helper->getWebhookCode($store)) {
-                $html = __('The webhook URL will be generated upon save.');
+                $html = '<span style="color: #eb5202">'
+                    . __('The webhook URL will be generated upon save.') . '</span>';
             } else {
-                $html = $this->helper->getWebhookUrl($store);
+                $html = '<span style="color: #79a22e">' . $this->helper->getWebhookUrl($store) . '</span>';
             }
         } catch (\Exception $e) {
-            $html = __('Error: %1', $e->getMessage());
+            $html = '<span style="color: #e22626">' . __('Error: %1', $e->getMessage()) . '</span>';
         }
 
         $html .= parent::_getElementHtml($element);
