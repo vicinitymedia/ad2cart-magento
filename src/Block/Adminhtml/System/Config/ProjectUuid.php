@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace VicinityMedia\Ad2Cart\Block\Adminhtml\System\Config;
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Framework\View\Helper\SecureHtmlRenderer;
-
 class ProjectUuid extends \Magento\Config\Block\System\Config\Form\Field
 {
     /**
@@ -22,10 +19,10 @@ class ProjectUuid extends \Magento\Config\Block\System\Config\Form\Field
      * @param \Magento\Framework\View\Helper\SecureHtmlRenderer|null $secureRenderer
      */
     public function __construct(
-        Context $context,
+        \Magento\Backend\Block\Template\Context $context,
         \VicinityMedia\Ad2Cart\Helper\Api $apiHelper,
         array $data = [],
-        ?SecureHtmlRenderer $secureRenderer = null
+        ?\Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer = null
     ) {
         $this->apiHelper = $apiHelper;
         parent::__construct($context, $data, $secureRenderer);
@@ -33,13 +30,14 @@ class ProjectUuid extends \Magento\Config\Block\System\Config\Form\Field
 
     /**
      * @inheritdoc
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
-    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element): string
     {
         try {
             if (!$this->apiHelper->getProjectUuid()) {
                 $html = '<span style="color: #eb5202">'
-                    . __('Your Project UUID will be fetched upon save.') . '</span>';
+                    . __('Your Site ID will be fetched upon save.') . '</span>';
             } else {
                 $html = '<span style="color: #79a22e">' . $this->apiHelper->getProjectUuid() . '</span>';
             }

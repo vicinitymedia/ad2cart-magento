@@ -5,7 +5,7 @@
         <attribute type="expanded">1</attribute>
 
         <field id="project_uuid" translate="label" type="hidden" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
-            <label>Project UUID</label>
+            <label>Site ID</label>
             <frontend_model>VicinityMedia\Ad2Cart\Block\Adminhtml\System\Config\ProjectUuid</frontend_model>
         </field>
 

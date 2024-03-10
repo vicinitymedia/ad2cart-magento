@@ -37,7 +37,7 @@ class ModuleInfo extends \Magento\Config\Block\System\Config\Form\Fieldset
     /**
      * @inheritdoc
      */
-    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element): array|string|null
     {
         $html = $this->_getHeaderHtml($element);
 

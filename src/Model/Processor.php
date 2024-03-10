@@ -69,17 +69,22 @@ class Processor
         $productsAdded = 0;
 
         foreach ($offers as $offer) {
+            $sku = $offer['sku'] ?? '';
+
             try {
                 if (isset($offer['sku'], $offer['qty'])) {
-                    /** @var ProductInterface $product */
                     $product = $this->productRepository->get((string)$offer['sku']);
 
-                    $quote->addProduct($product, intval($offer['qty']));
+                    $quote->addProduct($product, (int)$offer['qty']);
                     $productsAdded++;
                 }
-            } catch (NoSuchEntityException $e) {
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 $this->helper->logDebug(__('The product with SKU "%1" does not exist.', $sku));
-                // For now we are not handling errors so that we can contine adding products to the cart
+                // For now we are not handling errors so that we can continue adding products to the cart
+                // This might change in the future
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
+                $this->helper->logDebug($e->getMessage());
+                // For now we are not handling errors so that we can continue adding products to the cart
                 // This might change in the future
             }
         }
@@ -88,11 +93,11 @@ class Processor
             $this->quoteRepository->save($quote);
         }
 
-        //@todo This may move to the getFrontendCartUrl function
         $cartUrl = $this->helper->getFrontendCartUrl();
-        $parsedUrl = parse_url($cartUrl);
+        $uri = \Laminas\Uri\UriFactory::factory($cartUrl);
+        $query = $uri->getQuery();
 
-        $symbol = isset($parsedUrl['query']) ? '&' : '?';
+        $symbol = $query ? '&' : '?';
 
         $cartUrl .= $symbol . 'quote_id=' . (int)$quote->getId();
 

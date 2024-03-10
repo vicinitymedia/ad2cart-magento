@@ -41,7 +41,7 @@ class Cart
     public function setQuoteToSession(int $quoteId): void
     {
         $this->checkoutSession->setQuoteId($quoteId);
-        //@todo load from quote respository rather for checking purposes
+        //@todo load from quote repository rather for checking purposes
         //$quote = $this->quoteFactory->create()->load($quoteId);
 
         /*if ($quote->getId()) {
