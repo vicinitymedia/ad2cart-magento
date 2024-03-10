@@ -5,6 +5,9 @@ namespace VicinityMedia\Ad2Cart\Observer;
 
 class ConfigChangeObserver implements \Magento\Framework\Event\ObserverInterface
 {
+    /**
+     * @var string
+     */
     private $defaultError = 'Your API credentials could not be validated.';
 
     /**
@@ -64,7 +67,8 @@ class ConfigChangeObserver implements \Magento\Framework\Event\ObserverInterface
 
             if (!$isValid) {
                 $this->messageManager->addErrorMessage(__(
-                    '%1 Please verify your credentials and try again.', $this->defaultError
+                    '%1 Please verify your credentials and try again.',
+                    $this->defaultError
                 ));
             } else {
                 $this->messageManager->addSuccessMessage(

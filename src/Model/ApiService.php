@@ -18,7 +18,7 @@ class ApiService
     /**
      * Construct
      *
-     * @param \VicinityMedia\Ad2Cart\Helper\Api $apiHelper,
+     * @param \VicinityMedia\Ad2Cart\Helper\Api $apiHelper
      * @param \VicinityMedia\Ad2Cart\Model\Auth $auth
      */
     public function __construct(

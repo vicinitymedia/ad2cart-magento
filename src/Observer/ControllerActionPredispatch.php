@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace VicinityMedia\Ad2Cart\Observer;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
 class ControllerActionPredispatch implements \Magento\Framework\Event\ObserverInterface
 {
     /**
@@ -155,8 +159,6 @@ class ControllerActionPredispatch implements \Magento\Framework\Event\ObserverIn
 
             $this->setResponse(['message' => 'An unknown error occurred']);
         }
-
-        return;
     }
 
     /**
