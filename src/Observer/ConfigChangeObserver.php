@@ -71,6 +71,8 @@ class ConfigChangeObserver implements \Magento\Framework\Event\ObserverInterface
                     __('Your API credentials have been validated successfully.')
                 );
             }
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            $this->messageManager->addErrorMessage(__($e->getMessage()));
         } catch (\Throwable $e) {
             if ($this->apiHelper->isDebugActive()) {
                 $this->messageManager->addErrorMessage(__('%1 %2', $this->defaultError, $e->getMessage()));
