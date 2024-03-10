@@ -76,7 +76,7 @@ class ApiService
         ]);
 
         $mutation = 'mutation Mutation($auth: ValidateAuthSignatureInput!) {
-            validateAuthSignature(auths: $auth) {
+            validateAuthSignature(auth: $auth) {
                 isValid
             }
         }';
