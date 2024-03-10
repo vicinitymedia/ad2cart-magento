@@ -5,6 +5,7 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+
 permissions:
   contents: read
 
@@ -14,22 +15,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Cache dependencies
         uses: actions/cache@v2
+        id: vendor-cache
         with:
           path: |
             vendor
-            ${{ steps.composer-cache.outputs.dir }}
+            composer.lock
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: |
+          composer config --global --auth http-basic.repo.magento.com ${{ secrets.MAGENTO_REPO_USERNAME }} ${{ secrets.MAGENTO_REPO_PASSWORD }}
+          composer install --prefer-dist --optimize-autoloader --no-progress
 
   test:
     needs: build
@@ -37,16 +40,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get Composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Cache dependencies
         uses: actions/cache@v2
+        id: vendor-cache
         with:
           path: |
             vendor
-            ${{ steps.composer-cache.outputs.dir }}
+            composer.lock
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
