@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace VicinityMedia\Ad2Cart\Block\Adminhtml\System\Config;
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Framework\View\Helper\SecureHtmlRenderer;
-
 class Webhook extends \Magento\Config\Block\System\Config\Form\Field
 {
     /**
@@ -22,10 +19,10 @@ class Webhook extends \Magento\Config\Block\System\Config\Form\Field
      * @param \Magento\Framework\View\Helper\SecureHtmlRenderer|null $secureRenderer
      */
     public function __construct(
-        Context $context,
+        \Magento\Backend\Block\Template\Context $context,
         \VicinityMedia\Ad2Cart\Helper\Data $helper,
         array $data = [],
-        ?SecureHtmlRenderer $secureRenderer = null
+        ?\Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer = null
     ) {
         $this->helper = $helper;
         parent::__construct($context, $data, $secureRenderer);
@@ -33,8 +30,9 @@ class Webhook extends \Magento\Config\Block\System\Config\Form\Field
 
     /**
      * @inheritdoc
+     * @SuppressWarnings(PHPMD.CamelCaseMethodName)
      */
-    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element): string
     {
         try {
             $store = $this->_storeManager->getStore();

@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace VicinityMedia\Ad2Cart\Helper;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Data extends \VicinityMedia\Ad2Cart\Helper\AbstractHelper
 {
     /**
@@ -202,7 +205,7 @@ class Data extends \VicinityMedia\Ad2Cart\Helper\AbstractHelper
      * @return void
      */
     public function logDebug(
-        $debug,
+        mixed $debug,
         \Magento\Store\Api\Data\StoreInterface|int|string $store = null
     ): void {
         if ($this->isDebugActive($store)) {

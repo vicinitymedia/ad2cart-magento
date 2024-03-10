@@ -85,7 +85,7 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
         string $field = '',
         \Magento\Store\Api\Data\StoreInterface|int|string $scopeCode = null,
         string $scopeType = \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-    ) {
+    ): mixed {
         $field = static::MODULE_CONFIG_PATH . '/' .  $field;
 
         if ($scopeCode === null && !$this->isArea()) {
@@ -176,7 +176,7 @@ class AbstractHelper extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @return array|mixed
      */
-    public function jsonDecode(string $value)
+    public function jsonDecode(string $value): mixed
     {
         try {
             $decodeValue = $this->jsonSerializer->unserialize($value);

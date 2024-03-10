@@ -6,7 +6,7 @@ namespace VicinityMedia\Ad2Cart\Model;
 class Auth
 {
     private const SIGNATURE_VALIDITY = 60;
-    private const HASH_ALGO = 'sha256';
+    public const HASH_ALGO = 'sha256';
 
     /**
      * @var \VicinityMedia\Ad2Cart\Helper\Data
@@ -46,7 +46,7 @@ class Auth
     ): void {
         $requestKey = (string)$request->getHeader('X-Ad2Cart-Key');
         $requestSignature = (string)$request->getHeader('X-Ad2Cart-Signature');
-        $requestTimestamp = $request->getHeader('X-Ad2Cart-Timestamp');
+        $requestTimestamp = (string)$request->getHeader('X-Ad2Cart-Timestamp');
 
         $this->helper->logDebug(['headers' => [
             'key'       => $requestKey,
@@ -78,17 +78,8 @@ class Auth
 
         $this->helper->logDebug(['payload' => $payload]);
 
-        // Create digest for signing string, ensure raw binary output is set to true
-        $digest = base64_encode(hash_hmac(self::HASH_ALGO, $this->helper->jsonEncode($payload), $secret, true));
-
-        $stringToSign = implode("\n", [
-            'key:' . $key,
-            'timestamp:' . $requestTimestamp,
-            'digest:' . $digest
-        ]);
-
         // Compute signature
-        $computedSignature = hash_hmac(self::HASH_ALGO, $stringToSign, $secret);
+        $computedSignature = $this->prepareSignature($payload, $key, $secret, $requestTimestamp);
 
         $this->helper->logDebug([
             'signatures' => [
@@ -107,5 +98,31 @@ class Auth
         }
 
         $this->helper->logDebug('Signature validation successful.');
+    }
+
+    /**
+     * Prepare signature
+     *
+     * @param array $payload
+     * @param string $key
+     * @param string $secret
+     * @param string $timestamp
+     *
+     * @return string
+     */
+    public function prepareSignature(array $payload, string $key, string $secret, string $timestamp): string
+    {
+        // Create digest for signing string, ensure raw binary output is set to true
+        $digest = base64_encode(
+            hash_hmac(self::HASH_ALGO, $this->helper->jsonEncode($payload), $secret, true)
+        );
+
+        $stringToSign = implode("\n", [
+            'key:' . $key,
+            'timestamp:' . $timestamp,
+            'digest:' . $digest
+        ]);
+
+        return hash_hmac(self::HASH_ALGO, $stringToSign, $secret);
     }
 }

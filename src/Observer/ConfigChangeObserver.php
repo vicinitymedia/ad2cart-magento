@@ -5,6 +5,8 @@ namespace VicinityMedia\Ad2Cart\Observer;
 
 class ConfigChangeObserver implements \Magento\Framework\Event\ObserverInterface
 {
+    private $defaultError = 'Your API credentials could not be validated.';
+
     /**
      * @var \VicinityMedia\Ad2Cart\Model\ApiService
      */
@@ -38,17 +40,43 @@ class ConfigChangeObserver implements \Magento\Framework\Event\ObserverInterface
     /**
      * @inheritdoc
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(\Magento\Framework\Event\Observer $observer): void
     {
+        if (!$this->apiHelper->isActive()) {
+            return;
+        }
+
         try {
+            // Configure the project
             $projectData = $this->apiService->configureProject();
 
-            if (!empty($projectData['uuid'])) {
-                $this->apiHelper->setProjectUuid($projectData['uuid']);
-                $this->apiHelper->cleanConfigCache();
+            if (empty($projectData['uuid'])) {
+                throw new \Magento\Framework\Exception\RuntimeException(
+                    __('Unable to configure project.')
+                );
+            }
+
+            $this->apiHelper->setProjectUuid($projectData['uuid']);
+            $this->apiHelper->cleanConfigCache();
+
+            // Validate authentication signature
+            $isValid = $this->apiService->validateAuthSignature(['project_uuid' => $projectData['uuid']]);
+
+            if (!$isValid) {
+                $this->messageManager->addErrorMessage(__(
+                    '%1 Please verify your credentials and try again.', $this->defaultError
+                ));
+            } else {
+                $this->messageManager->addSuccessMessage(
+                    __('Your API credentials have been validated successfully.')
+                );
             }
         } catch (\Throwable $e) {
-            $this->messageManager->addError($e->getMessage());
+            if ($this->apiHelper->isDebugActive()) {
+                $this->messageManager->addErrorMessage(__('%1 %2', $this->defaultError, $e->getMessage()));
+            } else {
+                $this->messageManager->addErrorMessage(__($this->defaultError));
+            }
         }
     }
 }
