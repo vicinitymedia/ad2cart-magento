@@ -35,12 +35,6 @@ jobs:
           composer config --global --auth http-basic.repo.magento.com ${{ secrets.MAGENTO_REPO_USERNAME }} ${{ secrets.MAGENTO_REPO_PASSWORD }}
           composer install --prefer-dist --optimize-autoloader --no-progress
 
-      - name: Upload vendor directory
-        uses: actions/upload-artifact@v2
-        with:
-          name: vendor
-          path: vendor
-
   test:
 
     needs: build
@@ -49,17 +43,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Download vendor directory
-        uses: actions/download-artifact@v2
+      - name: Cache Vendor Directory
+        uses: actions/cache@v2
+        id: vendor-cache
         with:
-          name: vendor
-
-      - name: Copy vendor files
-        run: cp -r vendor/* ./
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
       - name: Run tests
         run: |
-          ./vendor/bin/grumphp run --no-interaction | tee tests.txt
+          ./vendor/bin/grumphp run --no-interaction |& tee tests.txt
           if [ $? -ne 0 ]; then exit 1; fi
 
       - name: Upload test results
