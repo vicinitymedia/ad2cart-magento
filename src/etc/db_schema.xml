@@ -11,7 +11,7 @@
         <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated at"/>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="ref_id"/>
+            <column name="track_id"/>
         </constraint>
     </table>
 </schema>
