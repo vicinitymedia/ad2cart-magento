@@ -1,4 +1,17 @@
 <?xml version="1.0"?>
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="vicinity_media_ad2cart_ad_track">
+        <column xsi:type="bigint" name="track_id" padding="20" unsigned="true" nullable="false" identity="true" comment="Track ID"/>
+        <column xsi:type="bigint" name="ad_id" padding="20" unsigned="true" nullable="true" identity="false" comment="Ad ID"/>
+        <column xsi:type="bigint" name="campaign_id" padding="20" unsigned="true" nullable="true" identity="false" comment="Campaign ID"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="true" identity="false" comment="Quote ID"/>
+        <column xsi:type="bigint" name="order_id" padding="20" unsigned="true" nullable="true" identity="false" comment="Order ID"/>
+        <column xsi:type="boolean" name="claimed" nullable="false" default="0" comment="Claimed"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created at"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated at"/>
 
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="ref_id"/>
+        </constraint>
+    </table>
 </schema>
