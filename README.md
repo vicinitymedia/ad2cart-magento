@@ -5,35 +5,14 @@ seamlessly add products to their cart while browsing the digital catalog, improv
 
 ## Installation
 
-### Composer
-
-This package has not been added to packagist yet. You can install this package by adding the repository to your 
-projects `composer.json` file:
-
-```bash
-...
-    "repositories": {
-        "vicinity-media": {
-            "type": "vcs",
-            "url": "https://bitbucket.org/vicinity-media/ad2cart-magento.git",
-            "only": [
-                "vicinity-media/ad2cart-magento"
-            ]
-        }
-    }
-...
-```
-
-Then run:
-
+Install via composer:
 ```bash
 composer require vicinity-media/ad2cart-magento
 ```
 
-## Todo
-- Unit tests
-- Add module configuration doc
-- Update installation doc
-- Add module to package manager (TBD)
-- Add pipeline to package registry on tagging
+Setup in Magento:
+```bash
+bin/magento setup:upgrade
+```
 
+Configure the extension in the Magento admin panel, see the [Vicinity Media Ad2Cart module documentation](docs/module-configs.md) for more information.
